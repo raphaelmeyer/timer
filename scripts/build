@@ -1,0 +1,14 @@
+#!/bin/bash
+
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+export CC=clang
+export CXX=clang++
+
+mkdir -p ${dir}/build
+cd ${dir}/build
+cmake -G Ninja ${dir}
+
+cd ${dir}
+cmake --build ${dir}/build
+
