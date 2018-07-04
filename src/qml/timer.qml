@@ -14,44 +14,46 @@ ApplicationWindow
   title: qsTr("Timer")
   visible: true
   flags: Qt.FramelessWindowHint
+
   minimumWidth: 200
   minimumHeight: 200
 
   onFullscreenChanged: visibility = (fullscreen ?  Window.FullScreen : Window.Windowed);
 
-  RowLayout {
-    id: time_input
+  ArcProgress {
+    id: progress
 
-    spacing: 2
-
-    TextInput {
-      id: hours
-      inputMask: "99"
-      text: "00"
-      font.pixelSize: 24
-    }
-
-    Text { text: ":"; font.pixelSize: 24 }
-
-    TextInput {
-      id: minutes
-      inputMask: "99"
-      font.pixelSize: 24
-    }
-
-    Text { text: ":"; font.pixelSize: 24 }
-
-    TextInput {
-      id: seconds
-      inputMask: "99"
-      font.pixelSize: 24
-    }
+    anchors.fill: parent
   }
 
-  Button {
-    id: start
-    text: "Start"
-    onClicked: timer.running = true
+  Rectangle {
+    anchors.fill: parent
+    color: "transparent"
+
+    TextInput {
+      id: time_input
+
+      anchors.centerIn: parent
+
+      text: "02:00"
+
+      inputMask: "99:99;0"
+      validator: RegExpValidator { regExp: /^[0-9][0-9]:[0-5][0-9]$/ }
+    }
+
+    Button {
+      id: start_stop
+
+      anchors.bottom: parent.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.bottomMargin: 20
+
+      text: "Start"
+
+      onClicked: {
+        timer.running = true
+      }
+    }
   }
 
   Timer {
@@ -59,14 +61,8 @@ ApplicationWindow
     interval: 100
     running: false
     repeat: true
-    onTriggered: time.text = Date().toString()
-  }
-
-  Text {
-    id: time
-  }
-
-  ArcProgress {
+    onTriggered: {
+    }
   }
 
   Action {

@@ -1,6 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Shapes 1.11
 
+import "ArcProgress.js" as Util
+
 Item {
 
   property double from: 0
@@ -8,33 +10,42 @@ Item {
   property double progress: 0
 
   Shape {
-    anchors.fill: parent
 
     ShapePath {
+      id: right_arc
+
       fillColor: "transparent"
       strokeColor: "blue"
       strokeWidth: 8
 
-      startX: 200; startY: 100
+      startX: parent.width / 2
+      startY: 100
+
       PathArc {
-        x: 200; y: 300
-        radiusX: 100; radiusY: 100
+        x: parent.width / 2
+        y: parent.height - 100
+
+        radiusX: parent.width / 2 - 200
+        radiusY: parent.height / 2 - 200
       }
     }
-  }
-
-  Shape {
-    anchors.fill: parent
 
     ShapePath {
+      id: left_arc
+
       fillColor: "transparent"
       strokeColor: "green"
       strokeWidth: 8
 
-      startX: 200; startY: 300
+      startX: 100
+      startY: 200
+
       PathArc {
-        x: 200; y: 100
-        radiusX: 100; radiusY: 100
+        x: Util.foo()
+        y: 0
+
+        radiusX: 100
+        radiusY: 100
       }
     }
   }
