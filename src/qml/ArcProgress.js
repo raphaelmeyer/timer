@@ -6,3 +6,10 @@ function progress(from, to, value) {
     return normalized;
 }
 
+function right_end_x(width, height) {
+    return 50;
+}
+
+function right_end_y(width, height) {
+    return 100;
+}
