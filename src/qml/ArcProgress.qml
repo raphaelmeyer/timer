@@ -41,7 +41,7 @@ Item {
       startY: 200
 
       PathArc {
-        x: Util.foo()
+        x: Util.progress(from, to, progress)
         y: 0
 
         radiusX: 100
