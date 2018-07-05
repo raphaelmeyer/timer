@@ -9,6 +9,13 @@ Item {
   property double to: 100
   property double progress: 0
 
+  QtObject {
+    id: m
+
+    property double normalized : Util.progress(from, to, progress)
+    property double radius: Util.radius(parent.width, parent.height)
+  }
+
   Shape {
 
     ShapePath {
@@ -16,17 +23,17 @@ Item {
 
       fillColor: "transparent"
       strokeColor: "blue"
-      strokeWidth: 8
+      strokeWidth: 16
 
-      startX: parent.width / 2
-      startY: 100
+      startX: Util.right_start_x(parent.width, parent.height, m.normalized)
+      startY: Util.right_start_y(parent.width, parent.height, m.normalized)
 
       PathArc {
-        x: parent.width / 2
-        y: parent.height - 100
+        x: Util.right_end_x(parent.width, parent.height, m.normalized)
+        y: Util.right_end_y(parent.width, parent.height, m.normalized)
 
-        radiusX: parent.width / 2 - 200
-        radiusY: parent.height / 2 - 200
+        radiusX: m.radius
+        radiusY: m.radius
       }
     }
 
@@ -35,17 +42,17 @@ Item {
 
       fillColor: "transparent"
       strokeColor: "green"
-      strokeWidth: 8
+      strokeWidth: 16
 
-      startX: 100
-      startY: 200
+      startX: parent.width / 2
+      startY: Util.right_end_y(parent.width, parent.height, 0)
 
       PathArc {
-        x: Util.progress(from, to, progress)
-        y: 0
+        x: parent.width / 2
+        y: Util.right_start_y(parent.width, parent.height, 0)
 
-        radiusX: 100
-        radiusY: 100
+        radiusX: m.radius
+        radiusY: m.radius
       }
     }
   }

@@ -43,12 +43,4 @@ TestCase {
   // when   click stop
   // then   timer is not running
   // and    input is reset to 02:00
-
-
-
-  function test_dummy() {
-    compare(testee.from, 0)
-    compare(testee.to, 100)
-    compare(testee.progress, 0)
-  }
 }
