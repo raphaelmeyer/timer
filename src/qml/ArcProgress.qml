@@ -19,37 +19,22 @@ Item {
   Shape {
 
     ShapePath {
-      id: right_arc
+      id: arc
 
       fillColor: "transparent"
-      strokeColor: m.normalized < 0.5 ? "blue" : "transparent"
-      strokeWidth: 16
+      strokeColor: "blue"
+      strokeWidth: Math.min(parent.width, parent.height) / 25
+      capStyle: ShapePath.FlatCap
 
-      startX: Util.right_start_x(parent.width, parent.height, m.normalized)
-      startY: Util.right_start_y(parent.width, parent.height, m.normalized)
-
-      PathArc {
-        x: Util.right_end_x(parent.width, parent.height, m.normalized)
-        y: Util.right_end_y(parent.width, parent.height, m.normalized)
-
-        radiusX: m.radius
-        radiusY: m.radius
-      }
-    }
-
-    ShapePath {
-      id: left_arc
-
-      fillColor: "transparent"
-      strokeColor: "green"
-      strokeWidth: 16
-
-      startX: parent.width / 2
-      startY: Util.right_end_y(parent.width, parent.height, 0)
+      startX: Util.start_x(parent.width, parent.height, m.normalized)
+      startY: Util.start_y(parent.width, parent.height, m.normalized)
 
       PathArc {
-        x: parent.width / 2
-        y: Util.right_start_y(parent.width, parent.height, 0)
+        direction: PathArc.Clockwise
+        useLargeArc: m.normalized < 0.5
+
+        x: Util.end_x(parent.width, parent.height, m.normalized)
+        y: Util.end_y(parent.width, parent.height, m.normalized)
 
         radiusX: m.radius
         radiusY: m.radius

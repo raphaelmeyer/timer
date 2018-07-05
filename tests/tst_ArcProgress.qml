@@ -34,46 +34,51 @@ TestCase {
     compare(ArcProgress.radius(35, 77), 14)
   }
 
-  function test_right_semi_circle_is_drawn_from_top_of_center_to_bottom_of_center() {
-    var progress = 0
+  function test_circle_start_point_is_slightly_off_clockwise_from_top_of_window_center() {
+    var start = 0
 
-    compare(ArcProgress.right_start_x(480, 320, progress), 240)
-    compare(ArcProgress.right_start_y(480, 320, progress), 160 - 128)
+    var x = ArcProgress.start_x(480, 320, start)
+    var y = ArcProgress.start_y(480, 320, start)
 
-    compare(ArcProgress.right_end_x(480, 320, progress), 240)
-    compare(ArcProgress.right_end_y(480, 320, progress), 160 + 128)
+    verify(x > 240)
+    verify(y > 160 - 128)
 
+    fuzzyCompare(x, 240, 2.0)
+    fuzzyCompare(y, 160 - 128, 2.0)
 
-    compare(ArcProgress.right_start_x(320, 480, progress), 160)
-    compare(ArcProgress.right_start_y(320, 480, progress), 240 - 128)
+    var x = ArcProgress.start_x(320, 480, start)
+    var y = ArcProgress.start_y(320, 480, start)
 
-    compare(ArcProgress.right_end_x(320, 480, progress), 160)
-    compare(ArcProgress.right_end_y(320, 480, progress), 240 + 128)
+    verify(x > 160)
+    verify(y > 240 - 128)
+
+    fuzzyCompare(x, 160, 2.0)
+    fuzzyCompare(y, 240 - 128, 2.0)
   }
 
-  function test_when_progress_is_smaller_than_50_precent_then_the_right_semi_circle_is_decreased_from_start_towards_end() {
-    var progress = 0.25;
+  function test_circle_start_point_moves_clockwise_with_increasing_progress() {
+    var delta = 0.1
 
-    compare(ArcProgress.right_start_x(480, 320, progress), 240 + 128)
-    compare(ArcProgress.right_start_y(480, 320, progress), 160)
+    fuzzyCompare(ArcProgress.start_x(480, 320, 0.25), 240 + 128, delta)
+    fuzzyCompare(ArcProgress.start_y(480, 320, 0.25), 160, delta)
+
+    fuzzyCompare(ArcProgress.start_x(480, 320, 0.5), 240, delta)
+    fuzzyCompare(ArcProgress.start_y(480, 320, 0.5), 160 + 128, delta)
+
+    fuzzyCompare(ArcProgress.start_x(480, 320, 0.75), 240 - 128, delta)
+    fuzzyCompare(ArcProgress.start_y(480, 320, 0.75), 160, delta)
   }
 
-  function test_when_progress_is_bigger_than_50_precent_then_the_right_semi_circle_is_empty() {
-    var progress = 0.501;
 
-    compare(ArcProgress.right_start_x(480, 320, progress), 0)
-    compare(ArcProgress.right_start_y(480, 320, progress), 0)
+  // todo straight on top of center
+  function test_circle_end_point_on_top_of_window_center() {
+    compare(ArcProgress.end_x(480, 320), 240)
+    compare(ArcProgress.end_y(480, 320), 160 - 128)
+
+    compare(ArcProgress.end_x(320, 480), 160)
+    compare(ArcProgress.end_y(320, 480), 240 - 128)
   }
 
-  function test_left_semi_circle_is_drawn_from_bottom_of_center_to_top_of_center() {
 
-  }
 
-  function test_when_progress_is_smaller_than_50_precent_then_the_left_semi_circle_is_full() {
-
-  }
-
-  function test_when_progress_is_bigger_than_50_precent_then_the_left_semi_circle_is_decreased_from_start_towards_end() {
-
-  }
 }

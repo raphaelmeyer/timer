@@ -35,6 +35,10 @@ ApplicationWindow
 
       anchors.centerIn: parent
 
+      font.pointSize: Math.max(24, Math.min(parent.width, parent.height) / 10)
+      font.bold: true
+      color: "green"
+
       text: "02:00"
 
       inputMask: "99:99;0"
@@ -62,7 +66,7 @@ ApplicationWindow
     running: false
     repeat: true
     onTriggered: {
-      if(progress.progress < 60) {
+      if(progress.progress < 100) {
         progress.progress = progress.progress + 0.2
       } else {
         progress.progress = 0
