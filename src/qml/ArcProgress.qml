@@ -22,7 +22,7 @@ Item {
       id: right_arc
 
       fillColor: "transparent"
-      strokeColor: "blue"
+      strokeColor: m.normalized < 0.5 ? "blue" : "transparent"
       strokeWidth: 16
 
       startX: Util.right_start_x(parent.width, parent.height, m.normalized)

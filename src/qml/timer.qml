@@ -62,8 +62,8 @@ ApplicationWindow
     running: false
     repeat: true
     onTriggered: {
-      if(progress.progress < 50) {
-        progress.progress = progress.progress + 0.1
+      if(progress.progress < 60) {
+        progress.progress = progress.progress + 0.2
       } else {
         progress.progress = 0
       }
