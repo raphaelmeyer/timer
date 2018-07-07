@@ -5,6 +5,8 @@ import "ArcProgress.js" as Util
 
 Item {
 
+  property color color: "black"
+
   property double from: 0
   property double to: 100
   property double progress: 0
@@ -22,7 +24,7 @@ Item {
       id: arc
 
       fillColor: "transparent"
-      strokeColor: "blue"
+      strokeColor: color
       strokeWidth: Math.min(parent.width, parent.height) / 25
       capStyle: ShapePath.FlatCap
 

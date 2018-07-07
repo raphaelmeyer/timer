@@ -1,5 +1,5 @@
 import QtQuick 2.11
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.4
 import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
 
@@ -16,6 +16,8 @@ ApplicationWindow
   visible: true
   flags: Qt.FramelessWindowHint
 
+  color: "lightsteelblue"
+
   minimumWidth: 200
   minimumHeight: 200
 
@@ -25,14 +27,24 @@ ApplicationWindow
     id: m
 
     property bool is_running: false
-    property var start_time: new Date().getTime()
-    property var set_time: "02:00"
+
+    property int start: 0
+    property int end: 100
+    property int current: 0
+
+    property var time_text: "02:00"
   }
 
   ArcProgress {
     id: progress
 
     anchors.fill: parent
+
+    color: "midnightblue"
+
+    from: m.start
+    to: m.end
+    progress: m.current
   }
 
   Rectangle {
@@ -46,9 +58,9 @@ ApplicationWindow
 
       font.pixelSize: Math.max(24, Math.min(parent.width, parent.height) / 8)
       font.bold: true
-      color: "green"
+      color: "midnightblue"
 
-      text: "02:00"
+      text: m.time_text
 
       inputMask: "99:99;0"
       validator: RegExpValidator { regExp: /^[0-9][0-9]:[0-5][0-9]$/ }
@@ -68,8 +80,6 @@ ApplicationWindow
 
         start_stop.text = m.is_running ? "Stop" : "Start"
         time_input.readOnly = m.is_running
-
-        timer.running = m.is_running
       }
     }
   }
@@ -77,13 +87,10 @@ ApplicationWindow
   Timer {
     id: timer
     interval: 100
-    running: false
+    running: m.is_running
     repeat: true
     onTriggered: {
-      if(m.is_running) {
-        time_input.text = Controller.text(m)
-        progress.progress = Controller.progress(m)
-      }
+      Controller.update(m)
     }
   }
 
