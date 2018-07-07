@@ -6,5 +6,6 @@
   <qresource prefix="/Timer">
     <file>ArcProgress.qml</file>
     <file>ArcProgress.js</file>
+    <file>Controller.js</file>
   </qresource>
 </RCC>

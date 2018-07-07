@@ -4,6 +4,7 @@ import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
 
 import "./Timer"
+import "./Timer/Controller.js" as Controller
 
 ApplicationWindow
 {
@@ -20,6 +21,14 @@ ApplicationWindow
 
   onFullscreenChanged: visibility = (fullscreen ?  Window.FullScreen : Window.Windowed);
 
+  QtObject {
+    id: m
+
+    property bool is_running: false
+    property var start_time: new Date().getTime()
+    property var set_time: "02:00"
+  }
+
   ArcProgress {
     id: progress
 
@@ -35,7 +44,7 @@ ApplicationWindow
 
       anchors.centerIn: parent
 
-      font.pointSize: Math.max(24, Math.min(parent.width, parent.height) / 10)
+      font.pixelSize: Math.max(24, Math.min(parent.width, parent.height) / 8)
       font.bold: true
       color: "green"
 
@@ -55,7 +64,12 @@ ApplicationWindow
       text: "Start"
 
       onClicked: {
-        timer.running = true
+        Controller.start_stop(m)
+
+        start_stop.text = m.is_running ? "Stop" : "Start"
+        time_input.readOnly = m.is_running
+
+        timer.running = m.is_running
       }
     }
   }
@@ -66,10 +80,9 @@ ApplicationWindow
     running: false
     repeat: true
     onTriggered: {
-      if(progress.progress < 100) {
-        progress.progress = progress.progress + 0.2
-      } else {
-        progress.progress = 0
+      if(m.is_running) {
+        time_input.text = Controller.text(m)
+        progress.progress = Controller.progress(m)
       }
     }
   }
