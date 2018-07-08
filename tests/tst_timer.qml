@@ -1,19 +1,26 @@
 import QtQuick 2.11
 import QtTest 1.11
 
-import "qrc:/Timer/"
+import "qrc:/Timer/Controller.js" as Controller
 
 TestCase {
+  id: test_case
+
   name: "DummyTest"
 
-  ArcProgress {
-    id: testee
+  function init() {
+    component = Qt.createComponent("qrc:/Timer/TimerState.qml")
+    testee = component.createTemporaryObject(test_case, {})
   }
 
   // given  input 02:30
   // when   click start
   // then   timer starts running from "02:30"
   function test_start_timer() {
+
+    testee.time_text = "02:30"
+
+    Controller.start_stop(testee)
     //testee.set_min = "02"
     //testee.set_sec = "30"
 

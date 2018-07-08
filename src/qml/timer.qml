@@ -23,16 +23,8 @@ ApplicationWindow
 
   onFullscreenChanged: visibility = (fullscreen ?  Window.FullScreen : Window.Windowed);
 
-  QtObject {
+  TimerState {
     id: m
-
-    property bool is_running: false
-
-    property int start: 0
-    property int end: 100
-    property int current: 0
-
-    property var time_text: "02:00"
   }
 
   ArcProgress {
