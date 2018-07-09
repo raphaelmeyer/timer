@@ -1,35 +1,55 @@
 import QtQuick 2.11
 import QtTest 1.11
 
-import "qrc:/Timer/Controller.js" as Controller
-
 TestCase {
-  id: test_case
-
-  name: "DummyTest"
+  name: "Timer Test"
 
   function create_testee() {
-      var component = Qt.createComponent("qrc:/Timer/TimerState.qml");
-      return createTemporaryObject(component, {})
+    var component = Qt.createComponent("qrc:/Timer/TimerState.qml");
+    return createTemporaryObject(component, {});
   }
 
   function test_on_startup_the_timer_is_not_running() {
-      var testee = create_testee();
+    var testee = create_testee();
 
-      verify(! testee.is_running);
+    verify(! testee.is_running);
   }
 
   function test_start_stop_toggles_timer_between_running_and_stopped() {
-      var testee = create_testee();
+    var testee = create_testee();
 
-      Controller.start_stop(testee);
-      verify(testee.is_running);
+    testee.start_stop(new Date().getTime());
+    verify(testee.is_running);
 
-      Controller.start_stop(testee);
-      verify(! testee.is_running);
+    testee.start_stop(null);
+    verify(! testee.is_running);
   }
 
-  function testee_when_stop_is_pressed
+  function test_when_started_the_time_is_counting_down() {
+    var testee = create_testee();
+    testee.time_text = "07:30";
+
+    var start_time = new Date().getTime();
+
+    testee.start_stop(start_time);
+    testee.update(start_time + 42 * 1000);
+
+    compare(testee.time_text, "06:48");
+  }
+
+  function test_timer_minutes_can_go_up_to_99_minutes_and_59_seconds() {
+    var testee = create_testee();
+    testee.time_text = "99:59";
+
+    compare(testee.time_text, "99:59");
+
+    var start_time = new Date().getTime();
+    testee.start_stop(start_time);
+    compare(testee.time_text, "99:59");
+
+    testee.update(start_time)
+    compare(testee.time_text, "99:59");
+  }
 
   // given  input 02:30
   // when   click start

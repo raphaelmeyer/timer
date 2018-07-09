@@ -4,7 +4,6 @@ import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
 
 import "./Timer"
-import "./Timer/Controller.js" as Controller
 
 ApplicationWindow
 {
@@ -68,7 +67,7 @@ ApplicationWindow
       text: "Start"
 
       onClicked: {
-        Controller.start_stop(m)
+        m.start_stop(new Date().getTime())
 
         start_stop.text = m.is_running ? "Stop" : "Start"
         time_input.readOnly = m.is_running
@@ -82,7 +81,7 @@ ApplicationWindow
     running: m.is_running
     repeat: true
     onTriggered: {
-      Controller.update(m)
+      m.update(new Date().getTime())
     }
   }
 
