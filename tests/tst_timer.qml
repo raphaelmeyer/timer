@@ -8,27 +8,32 @@ TestCase {
 
   name: "DummyTest"
 
-  function init() {
-    component = Qt.createComponent("qrc:/Timer/TimerState.qml")
-    testee = component.createTemporaryObject(test_case, {})
+  function create_testee() {
+      var component = Qt.createComponent("qrc:/Timer/TimerState.qml");
+      return createTemporaryObject(component, {})
   }
+
+  function test_on_startup_the_timer_is_not_running() {
+      var testee = create_testee();
+
+      verify(! testee.is_running);
+  }
+
+  function test_start_stop_toggles_timer_between_running_and_stopped() {
+      var testee = create_testee();
+
+      Controller.start_stop(testee);
+      verify(testee.is_running);
+
+      Controller.start_stop(testee);
+      verify(! testee.is_running);
+  }
+
+  function testee_when_stop_is_pressed
 
   // given  input 02:30
   // when   click start
   // then   timer starts running from "02:30"
-  function test_start_timer() {
-
-    testee.time_text = "02:30"
-
-    Controller.start_stop(testee)
-    //testee.set_min = "02"
-    //testee.set_sec = "30"
-
-    //click_start()
-
-    //compare(testee.remaining, 150)
-    //compare(testee.is_running, true)
-  }
 
   // given  timer running with 02:00
   // when   timer ran for 01:23
