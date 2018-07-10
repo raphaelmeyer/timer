@@ -12,22 +12,37 @@ Item {
   QtObject {
     id: m
 
-    property string start_time: null
-    property string set_time: null
+    property var start_time: new Number()
+    property var set_time: new Number()
   }
 
   function start_stop(start_time) {
     is_running = ! is_running;
 
     if(is_running) {
-      var set_time = time_text.split(':');
-      m.set_time = (60 * parseInt(set_time[0]) + parseInt(set_time[1])) * 1000;
-      m.start_time = start_time;
+      var t = to_min_sec(time_text);
+      m.set_time = 1000 * (60 * t.min + t.sec);
+
+      m.start_time = Number.parseInt(start_time);
     }
   }
 
   function update(current_time) {
-    time_text = Qt.formatTime(new Date(m.set_time - (current_time - m.start_time)), "mm:ss");
+    var remaining = (m.start_time + m.set_time - Number.parseInt(current_time)) / 1000;
+    var min = Math.floor(remaining / 60);
+    var sec = remaining % 60;
+    time_text = to_text(min, sec);
   }
 
+  function to_min_sec(text) {
+    var time = text.split(":");
+    var min = Number.parseInt(time[0]);
+    var sec = Number.parseInt(time[1]);
+
+    return {min: min, sec: sec};
+  }
+
+  function to_text(min, sec) {
+    return ("0" + min).slice(-2) + ":" + ("0" + sec).slice(-2);
+  }
 }

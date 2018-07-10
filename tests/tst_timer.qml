@@ -75,4 +75,21 @@ TestCase {
   // when   click stop
   // then   timer is not running
   // and    input is reset to 02:00
+
+
+  function test_convert_string_to_minutes_and_seconds() {
+    var testee = create_testee();
+
+    compare(testee.to_min_sec("00:00"), {min: 0, sec: 0});
+    compare(testee.to_min_sec("01:02"), {min: 1, sec: 2});
+    compare(testee.to_min_sec("99:59"), {min: 99, sec: 59});
+  }
+
+  function test_convert_minutes_and_seconds_to_string() {
+    var testee = create_testee();
+
+    compare(testee.to_text(0, 0), "00:00");
+    compare(testee.to_text(5, 7), "05:07");
+    compare(testee.to_text(12, 34), "12:34");
+  }
 }
