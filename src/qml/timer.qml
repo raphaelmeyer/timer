@@ -51,7 +51,7 @@ ApplicationWindow
       font.bold: true
       color: "midnightblue"
 
-      text: m.time_text
+      text: "02:00"
 
       inputMask: "99:99;0"
       validator: RegExpValidator { regExp: /^[0-9][0-9]:[0-5][0-9]$/ }
@@ -67,7 +67,7 @@ ApplicationWindow
       text: "Start"
 
       onClicked: {
-        m.start_stop(new Date().getTime())
+        m.start_stop(time_input.text, new Date().getTime())
 
         start_stop.text = m.is_running ? "Stop" : "Start"
         time_input.readOnly = m.is_running
@@ -82,6 +82,7 @@ ApplicationWindow
     repeat: true
     onTriggered: {
       m.update(new Date().getTime())
+      time_input.text = m.time_text
     }
   }
 

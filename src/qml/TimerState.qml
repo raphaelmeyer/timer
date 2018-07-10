@@ -7,31 +7,45 @@ Item {
   property int end: 100
   property int current: 0
 
-  property var time_text: "02:00"
+  property var time_text: ""
 
   QtObject {
     id: m
 
     property var start_time: new Number()
-    property var set_time: new Number()
+    property var set_millisec: new Number()
+    property var set_time: ""
   }
 
-  function start_stop(start_time) {
+  function start_stop(set_time, start_time) {
     is_running = ! is_running;
 
     if(is_running) {
-      var t = to_min_sec(time_text);
-      m.set_time = 1000 * (60 * t.min + t.sec);
-
+      var t = to_min_sec(set_time);
+      m.set_millisec = 1000 * (60 * t.min + t.sec);
+      m.set_time = set_time;
       m.start_time = Number.parseInt(start_time);
+
+      start = 0;
+      current = 0;
+      end = m.set_millisec;
+    } else {
+      current = 0;
     }
+    time_text = m.set_time;
   }
 
   function update(current_time) {
-    var remaining = (m.start_time + m.set_time - Number.parseInt(current_time)) / 1000;
+    var passed = Number.parseInt(current_time) - m.start_time;
+
+    var remaining = Math.ceil((m.set_millisec - passed) / 1000);
+    remaining = Math.max(0, remaining);
+
     var min = Math.floor(remaining / 60);
     var sec = remaining % 60;
+
     time_text = to_text(min, sec);
+    current = passed;
   }
 
   function to_min_sec(text) {
