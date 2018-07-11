@@ -38,8 +38,13 @@ Item {
   function update(current_time) {
     var passed = Number.parseInt(current_time) - m.start_time;
 
+    if(passed > m.set_millisec) {
+      var diff = passed - m.set_millisec;
+      m.start_time = Number.parseInt(current_time) - diff;
+      passed = diff;
+    }
+
     var remaining = Math.ceil((m.set_millisec - passed) / 1000);
-    remaining = Math.max(0, remaining);
 
     var min = Math.floor(remaining / 60);
     var sec = remaining % 60;

@@ -103,14 +103,22 @@ TestCase {
     compare(testee.current, 0);
   }
 
-  function test_timer_does_not_underflow() {
+  function test_timer_restarts_after_expiration() {
     var testee = create_testee();
     var start_time = new Date().getTime();
+    testee.start_stop("00:42", start_time);
 
-    testee.start_stop("01:23", start_time);
-    testee.update(start_time + 123 * 1000);
+    testee.update(start_time + 42 * 1000 - 1);
+    compare(testee.time_text, "00:01");
 
+    testee.update(start_time + 42 * 1000);
     compare(testee.time_text, "00:00");
+
+    testee.update(start_time + 42 * 1000 + 1);
+    compare(testee.time_text, "00:42");
+
+    testee.update(start_time + 43 * 1000);
+    compare(testee.time_text, "00:41");
   }
 
   function test_convert_string_to_minutes_and_seconds() {
