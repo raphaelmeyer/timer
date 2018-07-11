@@ -67,8 +67,9 @@ ApplicationWindow
       text: "Start"
 
       onClicked: {
-        m.start_stop(time_input.text, new Date().getTime())
+        m.start_stop(time_input.displayText, new Date().getTime())
 
+        time_input.text = m.time_text
         start_stop.text = m.is_running ? "Stop" : "Start"
         time_input.readOnly = m.is_running
       }
